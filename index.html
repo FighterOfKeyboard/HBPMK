@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="hu" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kultúra Temploma - Hamvas Béla Pest Megyei Könyvtár</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Múlt (Past) palette
+                        'mult-bg': '#D8D5CF',
+                        'mult-text': '#2B2B2B',
+                        'mult-accent': '#C59B27',
+                        // Jelen (Present) palette
+                        'jelen-bg': '#EBE7E1',
+                        'jelen-text': '#4A6B53',
+                        'jelen-accent': '#C85A32',
+                    },
+                    fontFamily: {
+                        bahnschrift: ['Bahnschrift', 'DIN Alternate', 'Segoe UI', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base typography */
+        body {
+            font-family: 'Bahnschrift', 'DIN Alternate', 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #D8D5CF;
+            color: #2B2B2B;
+        }
+
+        /* Diagonal visual banner divider line */
+        .board-divider-line {
+            height: 3px;
+            background: #C85A32;
+        }
+
+        /* Container styling for uniform cards */
+        .chapter-container {
+            width: 100%;
+            flex-shrink: 0;
+            box-sizing: border-box;
+        }
+
+        /* Desktop view horizontal scrolling layout */
+        @media (min-width: 1024px) {
+            html, body {
+                height: 100vh;
+                overflow: hidden;
+            }
+            #main-wrapper {
+                display: flex;
+                flex-direction: row;
+                overflow-x: auto !important;
+                overflow-y: hidden !important;
+                scroll-behavior: smooth;
+                height: calc(100vh - 85px);
+                padding: 1.25rem 2rem;
+                gap: 2rem;
+                align-items: stretch;
+                box-sizing: border-box;
+            }
+            .chapter-container {
+                width: 620px;
+                min-width: 620px;
+                max-width: 80vw;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                overflow-y: auto;
+            }
+        }
+
+        /* Portrait / Mobile view vertical scrolling mechanics */
+        @media (max-width: 1023px) {
+            html, body {
+                height: auto;
+                overflow-x: hidden;
+                overflow-y: auto !important;
+            }
+            #main-wrapper {
+                display: flex;
+                flex-direction: column;
+                overflow-y: visible;
+                padding: 1rem;
+                gap: 2rem;
+            }
+            .chapter-container {
+                height: auto;
+                max-height: none;
+                min-height: auto;
+            }
+        }
+
+        /* Portrait / Mobile view vertical scrolling mechanics */
+        @media (max-width: 1023px) {
+            html, body {
+                height: auto;
+                overflow-x: hidden;
+                overflow-y: auto !important;
+            }
+            #main-wrapper {
+                display: flex;
+                flex-direction: column;
+                overflow-y: visible;
+                padding: 1rem;
+                gap: 2rem;
+            }
+            .chapter-container {
+                height: auto;
+                max-height: none;
+                min-height: auto;
+                scroll-snap-align: none;
+            }
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #D8D5CF;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C85A32;
+            border-radius: 4px;
+        }
+
+        /* POI Marker styling */
+        .poi-marker {
+            transform: translate(-50%, -50%);
+            transition: transform 0.2s ease-in-out, background-color 0.2s;
+        }
+        .poi-marker:hover {
+            transform: translate(-50%, -50%) scale(1.25);
+        }
+
+        /* Comparison Slider Image Fix */
+        .comp-img-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col justify-between selection:bg-jelen-accent selection:text-white">
+
+    <!-- TOP HEADER WITH BOARD TITLE & ANGLED SUBTITLE BANNER -->
+    <header class="bg-mult-bg border-b-2 border-mult-text px-4 py-2 md:px-6 relative z-30 flex-shrink-0">
+        <div class="w-full flex flex-col md:flex-row md:items-center justify-between gap-2">
+            
+            <!-- Left: Project Title -->
+            <div class="text-left">
+                <div class="flex items-center gap-2 text-xs text-mult-accent font-bold uppercase tracking-wider">
+                    <i class="fa-solid fa-landmark"></i> Talált Ház 2026 // Szentendre, Pátriárka utca 7.
+                </div>
+                <h1 class="text-2xl md:text-3xl font-bold uppercase text-mult-text tracking-tight">
+                    Kultúra Temploma
+                </h1>
+                <p class="text-xs text-jelen-text font-semibold">
+                    Szerzők: <span class="text-mult-text">Lehota Zsolt, Füstik-Molnár Zsófia, Keresztes Balázs</span> | BME ÉPK Urbanisztika Tanszék
+                </p>
+            </div>
+
+            <!-- Right: Action Buttons -->
+            <div class="flex items-center gap-3">
+                <button onclick="openModal('sources-modal')" class="bg-jelen-accent text-white font-bold text-xs px-4 py-2 rounded shadow hover:bg-opacity-90 transition flex items-center gap-2">
+                    <i class="fa-solid fa-book-bookmark"></i> Források & AI Nyilatkozat
+                </button>
+            </div>
+        </div>
+
+        <!-- Solid Colored Subtitle Line -->
+        <div class="w-full mt-1.5 relative overflow-hidden">
+            <div class="board-divider-line w-full"></div>
+            <div class="text-[10px] text-right font-bold tracking-widest text-jelen-text uppercase pt-0.5">
+                Bevezetés az építészetbe / BME Urbanisztika
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN INTERACTIVE WRAPPER -->
+    <main id="main-wrapper" class="flex-1">
+
+        <!-- ========================================== -->
+        <!-- FEJEZET 1: INTERAKTÍV TÖRTÉNETI TÉRKÉPEK   -->
+        <!-- ========================================== -->
+        <section class="chapter-container bg-mult-bg border-2 border-mult-text p-4 md:p-6 rounded-lg shadow-lg">
+            <div>
+                <!-- Chapter Header -->
+                <div class="flex items-center justify-between border-b-2 border-mult-accent pb-2 mb-3">
+                    <span class="bg-mult-accent text-white text-xs px-3 py-1 font-bold rounded">1. FEJEZET</span>
+                    <span class="text-xs font-bold text-mult-text">INTERAKTÍV TÖRTÉNETI TÉRKÉPEK</span>
+                </div>
+
+                <h2 class="text-xl md:text-2xl font-bold uppercase text-mult-text mb-1">
+                    Helyszín és Történeti Fejlődés
+                </h2>
+                <p class="text-xs text-mult-text mb-3 leading-relaxed">
+                    Válasszon a 4 korszak térképe közül! A térképen lévő POI pontok statikusak maradnak minden rétegen a pontos összehasonlításhoz. Kattintson rájuk a részletek megtekintéséhez.
+                </p>
+
+                <!-- Era Switcher Buttons -->
+                <div class="flex flex-wrap gap-2 mb-3">
+                    <button onclick="switchMapEra('1887')" id="map-btn-1887" class="era-btn bg-mult-accent text-white text-xs font-bold px-3 py-1.5 rounded transition">
+                        1887 (Történeti)
+                    </button>
+                    <button onclick="switchMapEra('1970')" id="map-btn-1975" class="era-btn bg-white border border-mult-text text-mult-text text-xs font-bold px-3 py-1.5 rounded hover:bg-mult-accent hover:text-white transition">
+                        ~1970 (Hofer Látványterv)
+                    </button>
+                    <button onclick="switchMapEra('1993')" id="map-btn-1993" class="era-btn bg-white border border-mult-text text-mult-text text-xs font-bold px-3 py-1.5 rounded hover:bg-mult-accent hover:text-white transition">
+                        1993 (Megépült könyvtár)
+                    </button>
+                    <button onclick="switchMapEra('2026')" id="map-btn-2026" class="era-btn bg-white border border-mult-text text-mult-text text-xs font-bold px-3 py-1.5 rounded hover:bg-mult-accent hover:text-white transition">
+                        2026 (Jelenleg)
+                    </button>
+                </div>
+
+                <!-- Map Box & POI Marker Container -->
+                <div class="relative w-full h-64 md:h-72 lg:h-80 bg-gray-300 border-2 border-mult-text rounded overflow-hidden shadow-inner">
+                    <!-- Map Background Image -->
+                    <img id="map-image-display" src="https://placehold.co/1000x600/D8D5CF/2B2B2B?text=1887-es+T%C3%B6rt%C3%A9neti+T%C3%A9rk%C3%A9p" alt="Térkép" class="w-full h-full object-cover">
+
+                    <!-- Era Title Badge -->
+                    <div class="absolute top-3 left-3 bg-mult-text text-white text-xs px-3 py-1 rounded font-bold shadow z-10">
+                        Aktivált réteg: <span id="current-era-title" class="text-mult-accent">1887</span>
+                    </div>
+
+                    <!-- Static POI Markers Layer -->
+                    <div id="poi-container" class="absolute inset-0 z-20 pointer-events-none">
+                        <!-- Static POI markers inserted dynamically via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Note -->
+            <div class="mt-3 pt-2 border-t border-gray-400 flex justify-between items-center text-[11px] text-mult-text">
+                <span>SZENTENDRE, PÁTRIÁRKA UTCA 7.</span>
+                <span>47.66975° N, 19.075° E</span>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- FEJEZET 2: RÉGEN ÉS MOST (JUXTAPOSE SLIDER)-->
+        <!-- ========================================== -->
+        <section class="chapter-container bg-jelen-bg border-2 border-jelen-text p-4 md:p-6 rounded-lg shadow-lg">
+            <div>
+                <!-- Chapter Header -->
+                <div class="flex items-center justify-between border-b-2 border-jelen-accent pb-2 mb-3">
+                    <span class="bg-jelen-accent text-white text-xs px-3 py-1 font-bold rounded">2. FEJEZET</span>
+                    <span class="text-xs font-bold text-jelen-text">AZ ÉPÜLET ÁTALAKULÁSA</span>
+                </div>
+
+                <h2 class="text-xl md:text-2xl font-bold uppercase text-jelen-text mb-1">
+                    Régen és Most
+                </h2>
+                <p class="text-xs text-jelen-text mb-3 leading-relaxed">
+                    Válasszon egy épületrészt a gombok segítségével! A csúszka jobbra-balra húzásával összemérhető a múlt és a jelen állapota.
+                </p>
+
+                <!-- Category Buttons -->
+                <div class="flex flex-wrap gap-2 mb-3">
+                    <button onclick="loadComparisonCategory('szinhaz')" id="cat-btn-szinhaz" class="cat-btn bg-jelen-accent text-white text-xs font-bold px-3 py-1.5 rounded transition">
+                        Színházterem
+                    </button>
+                    <button onclick="loadComparisonCategory('mozaik')" id="cat-btn-mozaik" class="cat-btn bg-white border border-jelen-text text-jelen-text text-xs font-bold px-3 py-1.5 rounded hover:bg-jelen-accent hover:text-white transition">
+                        Barcsay-mozaik
+                    </button>
+                    <button onclick="loadComparisonCategory('temeto')" id="cat-btn-eloter" class="cat-btn bg-white border border-jelen-text text-jelen-text text-xs font-bold px-3 py-1.5 rounded hover:bg-jelen-accent hover:text-white transition">
+                        Temető
+                    </button>
+                    <button onclick="loadComparisonCategory('homlokzat')" id="cat-btn-homlokzat" class="cat-btn bg-white border border-jelen-text text-jelen-text text-xs font-bold px-3 py-1.5 rounded hover:bg-jelen-accent hover:text-white transition">
+                        Külső homlokzat
+                    </button>
+                </div>
+
+                <!-- Juxtapose Image Slider Container -->
+                <div id="comparison-slider" class="relative w-full h-64 md:h-72 lg:h-80 border-2 border-jelen-text rounded overflow-hidden select-none shadow bg-black">
+                    
+                    <!-- Base Background Layer: Múlt (Past Image - Full width fixed background) -->
+                    <div class="absolute inset-0 w-full h-full overflow-hidden">
+                        <img id="comp-past-img" src="https://placehold.co/900x500/D8D5CF/2B2B2B?text=M%C3%BAltbeli+Sz%C3%ADnh%C3%A1zterem+(1975)" alt="Múlt" class="comp-img-wrapper">
+                    </div>
+
+                    <!-- Overlay Layer: Jelen (Present Image - Revealing crop clip box) -->
+                    <div id="comparison-overlay" class="absolute top-0 left-0 bottom-0 overflow-hidden border-r-4 border-jelen-accent" style="width: 50%;">
+                        <img id="comp-present-img" src="https://placehold.co/900x500/EBE7E1/4A6B53?text=Jelenkori+Sz%C3%ADnh%C3%A1zterem+(2026)" alt="Jelen" class="comp-img-wrapper">
+                    </div>
+
+                    <!-- Fixed Badges (Always Visible on Top) -->
+                    <span class="absolute top-3 left-3 bg-mult-text text-mult-accent text-xs px-2 py-1 font-bold rounded z-20 shadow pointer-events-none">
+                        MÚLT (1975)
+                    </span>
+                    <span class="absolute top-3 right-3 bg-jelen-accent text-white text-xs px-2 py-1 font-bold rounded z-20 shadow pointer-events-none">
+                        JELEN (2026)
+                    </span>
+
+                    <!-- Interactive Range Input -->
+                    <input type="range" min="0" max="100" value="50" id="comparison-range" oninput="updateComparisonSlider(this.value)" class="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30">
+
+                    <!-- Handle Indicator Line -->
+                    <div id="comparison-handle" class="absolute top-0 bottom-0 left-1/2 -ml-3 w-6 pointer-events-none z-20 flex items-center justify-center">
+                        <div class="w-7 h-10 bg-jelen-accent text-white rounded flex items-center justify-center font-bold text-xs shadow-lg border border-white">
+                            &#8596;
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Text Description Box -->
+                <div class="mt-3 p-3 bg-white border border-jelen-text rounded">
+                    <h3 id="comp-desc-title" class="text-sm font-bold text-jelen-accent uppercase">
+                        A Színházterem és Előadóterem
+                    </h3>
+                    <p id="comp-desc-text" class="text-xs text-jelen-text mt-1 leading-relaxed">
+                        Az épületben elhelyezett nagy színpad és előadóterem a szokásos könyvtári funkciók mellett komplex kulturális központtá emelte az intézményt.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-2 pt-2 border-t border-gray-300 flex justify-between items-center text-[11px] text-jelen-text">
+                <span>HOFER MIKLÓS KONCEPCIÓ</span>
+                <span>ÖSSZEHASONLÍTÓ ELEMZÉS</span>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- FEJEZET 3: FENNTARTHATÓSÁGI MÁTRIX        -->
+        <!-- ========================================== -->
+        <section class="chapter-container bg-jelen-bg border-2 border-jelen-text p-4 md:p-6 rounded-lg shadow-lg">
+            <div>
+                <!-- Chapter Header -->
+                <div class="flex items-center justify-between border-b-2 border-jelen-accent pb-2 mb-3">
+                    <span class="bg-jelen-accent text-white text-xs px-3 py-1 font-bold rounded">3. FEJEZET</span>
+                    <span class="text-xs font-bold text-jelen-text">FENNTARTHATÓSÁGI MÁTRIX</span>
+                </div>
+
+                <h2 class="text-xl md:text-2xl font-bold uppercase text-jelen-text mb-1">
+                    Építészeti Fenntarthatóság Mátrix
+                </h2>
+                <p class="text-xs text-jelen-text mb-3 leading-relaxed">
+                    Kattintson az egyes elemekre a részletes elemzés kinyitásához!
+                </p>
+
+                <!-- Interactive Accordion Matrix Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    
+                    <!-- Pillar 1: Környezet -->
+                    <div onclick="toggleMatrixCard(this)" class="matrix-card border-2 border-jelen-text bg-white p-3 rounded cursor-pointer transition hover:border-jelen-accent">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 text-jelen-accent font-bold text-sm">
+                                <i class="fa-solid fa-leaf"></i>
+                                <span>1. Környezeti pillér</span>
+                            </div>
+                            <span class="bg-jelen-bg text-jelen-text text-xs px-2 py-0.5 font-bold rounded">01</span>
+                        </div>
+                        <p class="preview-text text-xs text-jelen-text mt-2">
+                            Madárbarát munkahely, méhecske hotel, esővíz-gyűjtés és tanösvény a kertben...
+                        </p>
+                        <div class="full-content hidden mt-3 pt-2 border-t border-gray-200 text-xs text-jelen-text space-y-2 leading-relaxed">
+                            <p>
+                                A könyvtár madárbarát munkahelyként működik, körben madárházakkal és méhecske hotellel.
+                            </p>
+                            <p>
+                                Az épület kertjébe rendszeresen ültetnek a dolgozók, a növényeket pedig összegyűjtött esővízzel öntözik, így a könyvtár visszaad a természetes környezetének.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Pillar 2: Társadalmi -->
+                    <div onclick="toggleMatrixCard(this)" class="matrix-card border-2 border-jelen-text bg-white p-3 rounded cursor-pointer transition hover:border-jelen-accent">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 text-jelen-accent font-bold text-sm">
+                                <i class="fa-solid fa-people-group"></i>
+                                <span>2. Társadalmi pillér</span>
+                            </div>
+                            <span class="bg-jelen-bg text-jelen-text text-xs px-2 py-0.5 font-bold rounded">02</span>
+                        </div>
+                        <p class="preview-text text-xs text-jelen-text mt-2">
+                            Gyermekkönyvtár, zöldkönyvtár, fonotéka és közösségi oktatási funkciók...
+                        </p>
+                        <div class="full-content hidden mt-3 pt-2 border-t border-gray-200 text-xs text-jelen-text space-y-2 leading-relaxed">
+                            <p>
+                                A többi intézmény elköltözése után a könyvtár folyamatosan újragondolta belső tereit: gyermekkönyvtár, zöldkönyvtár részleg, fonotéka és ifjúsági részleg jött létre.
+                            </p>
+                            <p>
+                                A dolgozók által kialakított tanösvény bemutatja a helyi növény- és állatvilágot a szentendrei közösségnek és iskolásoknak.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Pillar 3: Gazdasági -->
+                    <div onclick="toggleMatrixCard(this)" class="matrix-card border-2 border-jelen-text bg-white p-3 rounded cursor-pointer transition hover:border-jelen-accent">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 text-jelen-accent font-bold text-sm">
+                                <i class="fa-solid fa-coins"></i>
+                                <span>3. Gazdasági pillér</span>
+                            </div>
+                            <span class="bg-jelen-bg text-jelen-text text-xs px-2 py-0.5 font-bold rounded">03</span>
+                        </div>
+                        <p class="preview-text text-xs text-jelen-text mt-2">
+                            Meglévő épületállomány adaptív újrahasznosítása bontás és újraelőállítás helyett...
+                        </p>
+                        <div class="full-content hidden mt-3 pt-2 border-t border-gray-200 text-xs text-jelen-text space-y-2 leading-relaxed">
+                            <p>
+                                A meglévő 1975-ös épülettömeg megtartása és belső funkcionális átalakítása hosszú távon sokkal gazdaságosabb és alacsonyabb szén-dioxid kibocsátású, mint egy új épület építése.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Pillar 4: Kulturális -->
+                    <div onclick="toggleMatrixCard(this)" class="matrix-card border-2 border-jelen-text bg-white p-3 rounded cursor-pointer transition hover:border-jelen-accent">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2 text-jelen-accent font-bold text-sm">
+                                <i class="fa-solid fa-landmark"></i>
+                                <span>4. Kulturális pillér</span>
+                            </div>
+                            <span class="bg-jelen-bg text-jelen-text text-xs px-2 py-0.5 font-bold rounded">04</span>
+                        </div>
+                        <p class="preview-text text-xs text-jelen-text mt-2">
+                            Szentendre későmodern öröksége, Barcsay Jenő művészeti hagyatéka...
+                        </p>
+                        <div class="full-content hidden mt-3 pt-2 border-t border-gray-200 text-xs text-jelen-text space-y-2 leading-relaxed">
+                            <p>
+                                Az épület a 20. századi magyar építészet kiemelkedő emléke. Barcsay Jenő Kossuth-díjas művész 3x11 méteres üvegmozaikja a helyi művészeti identitás szerves része.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="mt-3 pt-2 border-t border-gray-300 flex justify-between items-center text-[11px] text-jelen-text">
+                <span>TALÁLT HÁZ 2026</span>
+                <span>BME URBANISZTIKA TANSZÉK</span>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- POI DETAILS MODAL -->
+    <div id="poi-modal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-mult-bg border-2 border-mult-text rounded-lg max-w-lg w-full p-5 relative shadow-2xl">
+            <button onclick="closeModal('poi-modal')" class="absolute top-3 right-3 text-mult-text hover:text-jelen-accent font-bold text-xl">
+                &times;
+            </button>
+
+            <div class="text-xs font-bold text-mult-accent uppercase mb-1">
+                <i class="fa-solid fa-location-dot"></i> POI Részletek
+            </div>
+            <h3 id="poi-modal-title" class="text-xl font-bold uppercase text-mult-text mb-3">
+                Pont Megnevezése
+            </h3>
+
+            <!-- Photo Carousel Display -->
+            <div class="relative w-full h-56 bg-gray-900 rounded overflow-hidden mb-3 flex items-center justify-center">
+                <img id="poi-carousel-img" src="" alt="POI Kép" class="w-full h-full object-cover">
+                
+                <button onclick="prevPoiImage()" id="poi-prev-btn" class="absolute left-2 bg-black/60 text-white p-2 rounded-full hover:bg-black transition">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button onclick="nextPoiImage()" id="poi-next-btn" class="absolute right-2 bg-black/60 text-white p-2 rounded-full hover:bg-black transition">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+
+                <div id="poi-img-counter" class="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] px-2 py-0.5 rounded font-bold">
+                    1 / 1
+                </div>
+            </div>
+
+            <p id="poi-modal-desc" class="text-xs text-mult-text leading-relaxed mb-4">
+                Leírás az adott kijelölt pontról...
+            </p>
+
+            <div class="flex justify-end">
+                <button onclick="closeModal('poi-modal')" class="bg-mult-text text-white font-bold text-xs px-4 py-2 rounded hover:bg-mult-accent transition">
+                    Vissza a térképhez
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SOURCES & AI DISCLAIMER MODAL -->
+    <div id="sources-modal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-jelen-bg border-2 border-jelen-text rounded-lg max-w-xl w-full p-6 relative max-h-[90vh] overflow-y-auto shadow-2xl">
+            <button onclick="closeModal('sources-modal')" class="absolute top-3 right-3 text-jelen-text hover:text-jelen-accent font-bold text-xl">
+                &times;
+            </button>
+
+            <div class="text-xs font-bold text-jelen-accent uppercase mb-1">
+                <i class="fa-solid fa-book-bookmark"></i> Dokumentáció
+            </div>
+            <h3 class="text-2xl font-bold uppercase text-jelen-text mb-4">
+                Források és Nyilatkozat
+            </h3>
+
+            <div class="mb-5">
+                <h4 class="text-sm font-bold text-jelen-text border-b border-jelen-text pb-1 mb-2 uppercase">
+                    Szakirodalom és Archív Tervek
+                </h4>
+                <ul id="backend-sources-list" class="list-disc list-inside text-xs text-jelen-text space-y-1.5 leading-relaxed">
+                </ul>
+            </div>
+
+            <hr class="border-t-2 border-jelen-text my-4">
+
+            <div class="bg-white border border-jelen-text p-3 rounded">
+                <h4 class="text-xs font-bold text-jelen-accent uppercase mb-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-code"></i> AI Megjegyzés / Nyilatkozat
+                </h4>
+                <p class="text-[11px] text-jelen-text leading-relaxed">
+                    A weboldal kódstruktúrája, az interaktív funkciók és a reszponzív logikai felépítés előállításához mesterséges intelligencia segítségét vettük igénybe. Az építészeti adatok, elemzések és a tablók tartalma a hallgatói kutatáson alapul.
+                </p>
+            </div>
+
+            <div class="mt-5 flex justify-end">
+                <button onclick="closeModal('sources-modal')" class="bg-jelen-accent text-white font-bold text-xs px-5 py-2.5 rounded hover:bg-opacity-90 transition">
+                    Bezárás
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const MAPS_IMAGES = {
+            '1887': {
+                title: '1887 (Történeti)',
+                image: '1887_map.png'
+            },
+            '1970': {
+                title: '~1970 (Hofer Látványterv)',
+                image: 'hofer_map.png'
+            },
+            '1993': {
+                title: '1993 (Átalakítások)',
+                image: '1993_map.png.jpg'
+            },
+            '2026': {
+                title: '2026 (Jelenlegi Maps)',
+                image: '2026_map.png'
+            }
+        };
+
+        const STATIC_POIS = [
+            {
+                id: 'poi1',
+                title: 'Főbejárat és Előtér',
+                top: '45%',
+                left: '35%',
+                description: 'Az épület Pátriárka utca felőli főbejárata és reprezentatív fogadótere, mely összeköti a különböző szárnyakat.',
+                images: ['https://placehold.co/800x500/2B2B2B/FAF8F5?text=F%C5%91bej%C3%A1rat+1', 'https://placehold.co/800x500/C59B27/2B2B2B?text=F%C5%91bej%C3%A1rat+2']
+            },
+            {
+                id: 'poi2',
+                title: 'Barcsay-mozaik',
+                top: '30%',
+                left: '60%',
+                description: 'Barcsay Jenő Kossuth-díjas művész 3x11 méteres üvegmozaikja, mely a kultúrház színháztermi előterében található.',
+                images: ['https://placehold.co/800x500/C85A32/FFFFFF?text=Barcsay-mozaik']
+            },
+            {
+                id: 'poi3',
+                title: 'Színházterem',
+                top: '65%',
+                left: '70%',
+                description: 'Nagy kapacitású multifunkcionális előadó- és színházterem, mely kulturális rendezvények helyszíne.',
+                images: ['https://placehold.co/800x500/4A6B53/FFFFFF?text=Sz%C3%ADnh%C3%A1zterem']
+            },
+            {
+                id: 'poi4',
+                title: 'Belső Udvar & Tanösvény',
+                top: '55%',
+                left: '20%',
+                description: 'Védett belső zöldudvar, ahol a dolgozók által gondozott tanösvény és madárbarát kert található.',
+                images: ['https://placehold.co/800x500/EBE7E1/4A6B53?text=Bels%C5%91+Udvar']
+            }
+        ];
+
+        const COMPARISON_DATA = {
+            'szinhaz': {
+                title: 'A Színházterem és Előadóterem',
+                desc: 'Az épületben elhelyezett nagy színpad és előadóterem a szokásos könyvtári funkciók mellett komplex kulturális központtá emelte az intézményt.',
+                pastImg: 'https://placehold.co/900x500/D8D5CF/2B2B2B?text=M%C3%BAltbeli+Sz%C3%ADnh%C3%A1zterem+(1975)',
+                presentImg: 'https://placehold.co/900x500/EBE7E1/4A6B53?text=Jelenkori+Sz%C3%ADnh%C3%A1zterem+(2026)'
+            },
+            'mozaik': {
+                title: 'Barcsay Jenő Üvegmozaikja',
+                desc: 'A nagyméretű, monumentális művészeti alkotás a mai napig meghatározza a belső tér vizuális identitását és védendő értékét.',
+                pastImg: 'https://placehold.co/900x500/C59B27/2B2B2B?text=Barcsay-mozaik+Eredeti+K%C3%B6rnyezetben',
+                presentImg: 'https://placehold.co/900x500/C85A32/FFFFFF?text=Barcsay-mozaik+Mai+%C3%81llapot'
+            },
+            'temeto': {
+                title: 'Előtér, Közlekedők és Szellőzés',
+                desc: 'A belső átriumos fogadótér és a megújult légtechnikai rendszerek a terek átszervezésével nyerték el mai funkcionalitásukat.',
+                pastImg: 'https://placehold.co/900x500/2B2B2B/FFFFFF?text=El%C5%91t%C3%A9r+(1975)',
+                presentImg: 'https://placehold.co/900x500/4A6B53/FFFFFF?text=El%C5%91t%C3%A9r+(2026)'
+            },
+            'homlokzat': {
+                title: 'Külső Homlokzat és Illeszkedés',
+                desc: 'A későmodern tégla- és betonszerkezetek idősödése, a nyílászárók és a környező terek átalakulása az évtizedek során.',
+                pastImg: 'https://placehold.co/900x500/D8D5CF/C85A32?text=Homlokzat+(1975)',
+                presentImg: 'https://placehold.co/900x500/EBE7E1/2B2B2B?text=Homlokzat+(2026)'
+            }
+        };
+
+        const SOURCES_LIST = [
+            'Hofer Miklós archív tervei és beépítési koncepciója (1975)',
+            'Hamvas Béla Pest Megyei Könyvtár helytörténeti gyűjteménye és dokumentációi',
+            'Szentendre Város Építési Szabályzata és Településképi Arculati Kézikönyve',
+            'BME Urbanisztika Tanszék - Talált Ház 2026 felmérések és kutatási anyagok',
+            'Magyar Építőművészet folyóirat vonatkozó archív számai (1975–1985)'
+        ];
+
+        let currentPoiImages = [];
+        let currentPoiImgIndex = 0;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            switchMapEra('1887');
+            renderStaticPois();
+            loadComparisonCategory('szinhaz');
+            renderSources();
+            initHorizontalMouseWheel();
+            syncOverlayImageWidth();
+            window.addEventListener('resize', syncOverlayImageWidth);
+        });
+
+        /* Enable Mouse Wheel Horizontal Scrolling on Desktop */
+        function initHorizontalMouseWheel() {
+            const wrapper = document.getElementById('main-wrapper');
+            if (!wrapper) return;
+
+            wrapper.addEventListener('wheel', (e) => {
+                if (window.innerWidth >= 1024) {
+                    e.preventDefault();
+                    wrapper.scrollLeft += e.deltaY;
+                }
+            }, { passive: false });
+        }
+
+        /* Map Era Switcher */
+        function switchMapEra(era) {
+            const data = MAPS_IMAGES[era];
+            if (!data) return;
+
+            document.getElementById('map-image-display').src = data.image;
+            document.getElementById('current-era-title').innerText = data.title;
+
+            document.querySelectorAll('.era-btn').forEach(btn => {
+                btn.className = "era-btn bg-white border border-mult-text text-mult-text text-xs font-bold px-3 py-1.5 rounded hover:bg-mult-accent hover:text-white transition";
+            });
+            const activeBtn = document.getElementById(`map-btn-${era}`);
+            if (activeBtn) {
+                activeBtn.className = "era-btn bg-mult-accent text-white text-xs font-bold px-3 py-1.5 rounded transition";
+            }
+        }
+
+        /* Render Static Map Markers */
+        function renderStaticPois() {
+            const container = document.getElementById('poi-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            STATIC_POIS.forEach(poi => {
+                const marker = document.createElement('button');
+                marker.className = 'poi-marker absolute pointer-events-auto bg-jelen-accent hover:bg-mult-accent text-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg border-2 border-white font-bold text-xs cursor-pointer z-30';
+                marker.style.top = poi.top;
+                marker.style.left = poi.left;
+                marker.innerHTML = '<i class="fa-solid fa-location-dot"></i>';
+                marker.title = poi.title;
+                marker.onclick = () => openPoiModal(poi);
+                container.appendChild(marker);
+            });
+        }
+
+        /* Comparison Slider Logic */
+        function loadComparisonCategory(catKey) {
+            const data = COMPARISON_DATA[catKey];
+            if (!data) return;
+
+            document.getElementById('comp-past-img').src = data.pastImg;
+            document.getElementById('comp-present-img').src = data.presentImg;
+            document.getElementById('comp-desc-title').innerText = data.title;
+            document.getElementById('comp-desc-text').innerText = data.desc;
+
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.className = "cat-btn bg-white border border-jelen-text text-jelen-text text-xs font-bold px-3 py-1.5 rounded hover:bg-jelen-accent hover:text-white transition";
+            });
+            const activeBtn = document.getElementById(`cat-btn-${catKey}`);
+            if (activeBtn) {
+                activeBtn.className = "cat-btn bg-jelen-accent text-white text-xs font-bold px-3 py-1.5 rounded transition";
+            }
+            syncOverlayImageWidth();
+        }
+
+        function updateComparisonSlider(val) {
+            document.getElementById('comparison-overlay').style.width = val + '%';
+            document.getElementById('comparison-handle').style.left = val + '%';
+            syncOverlayImageWidth();
+        }
+
+        function syncOverlayImageWidth() {
+            const container = document.getElementById('comparison-slider');
+            const presentImg = document.getElementById('comp-present-img');
+            if (container && presentImg) {
+                presentImg.style.width = container.offsetWidth + 'px';
+                presentImg.style.maxWidth = 'none';
+            }
+        }
+
+        /* POI Carousel Modal */
+        function openPoiModal(poi) {
+            document.getElementById('poi-modal-title').innerText = poi.title;
+            document.getElementById('poi-modal-desc').innerText = poi.description;
+            
+            currentPoiImages = poi.images && poi.images.length > 0 ? poi.images : ['https://placehold.co/800x500/2B2B2B/FAF8F5?text=Nincs+K%C3%A9p'];
+            currentPoiImgIndex = 0;
+            updatePoiCarousel();
+
+            openModal('poi-modal');
+        }
+
+        function updatePoiCarousel() {
+            document.getElementById('poi-carousel-img').src = currentPoiImages[currentPoiImgIndex];
+            document.getElementById('poi-img-counter').innerText = `${currentPoiImgIndex + 1} / ${currentPoiImages.length}`;
+
+            const prevBtn = document.getElementById('poi-prev-btn');
+            const nextBtn = document.getElementById('poi-next-btn');
+            if (currentPoiImages.length <= 1) {
+                prevBtn.classList.add('hidden');
+                nextBtn.classList.add('hidden');
+            } else {
+                prevBtn.classList.remove('hidden');
+                nextBtn.classList.remove('hidden');
+            }
+        }
+
+        function prevPoiImage() {
+            currentPoiImgIndex = (currentPoiImgIndex - 1 + currentPoiImages.length) % currentPoiImages.length;
+            updatePoiCarousel();
+        }
+
+        function nextPoiImage() {
+            currentPoiImgIndex = (currentPoiImgIndex + 1) % currentPoiImages.length;
+            updatePoiCarousel();
+        }
+
+        /* Chapter 3 Sustainability Accordion Matrix */
+        function toggleMatrixCard(cardEl) {
+            const fullContent = cardEl.querySelector('.full-content');
+            const previewText = cardEl.querySelector('.preview-text');
+            
+            if (fullContent.classList.contains('hidden')) {
+                fullContent.classList.remove('hidden');
+                previewText.classList.add('hidden');
+            } else {
+                fullContent.classList.add('hidden');
+                previewText.classList.remove('hidden');
+            }
+        }
+
+        /* Render Sources List */
+        function renderSources() {
+            const ul = document.getElementById('backend-sources-list');
+            if (!ul) return;
+            ul.innerHTML = '';
+            SOURCES_LIST.forEach(src => {
+                const li = document.createElement('li');
+                li.innerText = src;
+                ul.appendChild(li);
+            });
+        }
+
+        /* Generic Modal Handlers */
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        window.onclick = function(e) {
+            const poiModal = document.getElementById('poi-modal');
+            const sourcesModal = document.getElementById('sources-modal');
+            if (e.target === poiModal) closeModal('poi-modal');
+            if (e.target === sourcesModal) closeModal('sources-modal');
+        }
+    </script>
+</body>
+</html>
