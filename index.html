@@ -46,7 +46,7 @@
         /* Diagonal visual divider line */
         .board-divider-line {
             height: 3px;
-            background: linear-gradient(90deg, #B8860B 0%, #C85A32 50%, #38322B 100%);
+            background: linear-gradient(90deg, #B8860B 0%, #C85A32 100%);
         }
 
         /* Container styling for uniform cards */
@@ -164,13 +164,13 @@
             <!-- Left: Project Title -->
             <div class="text-left">
                 <div class="flex items-center gap-2 text-xs text-heritage-gold font-bold uppercase tracking-wider">
-                    <i class="fa-solid fa-landmark"></i> Talált Ház 2026 // Szentendre, Pátriárka utca 7.
+                    <i class="fa-solid fa-landmark"></i> Talált Ház 2026 // Hamvas Béla Pest Megyei Könyvtár
                 </div>
                 <h1 class="text-2xl md:text-3xl font-bold uppercase text-ink-dark tracking-tight">
                     Kultúra Temploma
                 </h1>
                 <p class="text-xs text-ink-muted font-semibold">
-                    Szerzők: <span class="text-ink-dark">Lehota Zsolt, Füstik-Molnár Zsófia, Keresztes Balázs</span> | BME ÉPK Urbanisztika Tanszék
+                    Szerzők: <span class="text-ink-dark">Lehota Zsolt, Füstik-Molnár Zsófia, Keresztes Balázs</span> 
                 </p>
             </div>
 
@@ -186,7 +186,7 @@
         <div class="w-full mt-2 relative overflow-hidden">
             <div class="board-divider-line w-full"></div>
             <div class="text-[10px] text-right font-bold tracking-widest text-ink-muted uppercase pt-0.5">
-                Bevezetés az építészetbe / BME Urbanisztika
+                Bevezetés az építészetbe / BME ÉPK Urbanisztika Tanszék
             </div>
         </div>
     </header>
@@ -209,7 +209,7 @@
                     Helyszín és Történeti Fejlődés
                 </h2>
                 <p class="text-xs text-ink-muted mb-3 leading-relaxed">
-                    Válasszon a 4 korszak térképe közül! A térképen lévő POI pontok statikusak maradnak minden rétegen a pontos összehasonlításhoz. Kattintson rájuk a részletek megtekintéséhez.
+                    Válasszon a 4 korszak térképe közül! Kattintson a térképen lévő pontokra a részletek megtekintéséhez.
                 </p>
 
                 <!-- Era Switcher Buttons -->
@@ -224,7 +224,7 @@
                         1993 (Átalakítások)
                     </button>
                     <button onclick="switchMapEra('2026')" id="map-btn-2026" class="era-btn bg-white border border-ink-dark text-ink-dark text-xs font-bold px-3 py-1.5 rounded hover:bg-present-terra hover:text-white transition shadow-sm">
-                        2026 (Jelenlegi Maps)
+                        2026 (Jelenlegi térkép)
                     </button>
                 </div>
 
@@ -267,7 +267,7 @@
                     Régen és Most
                 </h2>
                 <p class="text-xs text-ink-muted mb-3 leading-relaxed">
-                    Válasszon egy épületrészt a gombok segítségével! A csúszka jobbra-balra húzásával összemérhető a múlt és a jelen állapota.
+                    Válasszon egy épületrészt a listából! A csúszka jobbra-balra húzásával összemérhető a múlt és a jelen állapota.
                 </p>
 
                 <!-- Category Buttons -->
@@ -278,16 +278,16 @@
                     <button onclick="loadComparisonCategory('mozaik')" id="cat-btn-mozaik" class="cat-btn bg-white border border-ink-dark text-ink-dark text-xs font-bold px-3 py-1.5 rounded hover:bg-present-terra hover:text-white transition shadow-sm">
                         Barcsay-mozaik
                     </button>
-                    <button onclick="loadComparisonCategory('eloter')" id="cat-btn-eloter" class="cat-btn bg-white border border-ink-dark text-ink-dark text-xs font-bold px-3 py-1.5 rounded hover:bg-present-terra hover:text-white transition shadow-sm">
-                        Előtér & Szellőzés
+                    <button onclick="loadComparisonCategory('temeto')" id="cat-btn-temeto" class="cat-btn bg-white border border-ink-dark text-ink-dark text-xs font-bold px-3 py-1.5 rounded hover:bg-present-terra hover:text-white transition shadow-sm">
+                        Temető
                     </button>
-                    <button onclick="loadComparisonCategory('homlokzat')" id="cat-btn-homlokzat" class="cat-btn bg-white border border-ink-dark text-ink-dark text-xs font-bold px-3 py-1.5 rounded hover:bg-present-terra hover:text-white transition shadow-sm">
-                        Külső homlokzat
+                    <button onclick="loadComparisonCategory('olvaso')" id="cat-btn-olvaso" class="cat-btn bg-white border border-ink-dark text-ink-dark text-xs font-bold px-3 py-1.5 rounded hover:bg-present-terra hover:text-white transition shadow-sm">
+                        Olvasóterem
                     </button>
                 </div>
 
                 <!-- Juxtapose Image Slider Container -->
-                <div id="comparison-slider" class="relative w-full h-64 md:h-72 lg:h-80 border-2 border-ink-dark rounded overflow-hidden select-none shadow bg-black">
+                <div id="comparison-slider" class="relative w-full aspect-video border-2 border-ink-dark rounded overflow-hidden select-none shadow bg-black">
                     
                     <!-- Base Background Layer: Múlt (Past Image) -->
                     <div class="absolute inset-0 w-full h-full overflow-hidden">
@@ -324,7 +324,7 @@
                         A Színházterem és Előadóterem
                     </h3>
                     <p id="comp-desc-text" class="text-xs text-ink-dark mt-1 leading-relaxed">
-                        Az épületben elhelyezett nagy színpad és előadóterem a szokásos könyvtári funkciók mellett komplex kulturális központtá emelte az intézményt.
+                        Az épületben elhelyezett nagy színpad és előadóterem a szokásos könyvtári funkciók mellett komplex kulturális központtá emelte az intézményt. Az előadóban a legnagyobb változás az átadás 50. évfordulójára kicserélt székek a nézőtéren, de a gyönyörű faburkolatok azóta is megmaradtak.
                     </p>
                 </div>
             </div>
@@ -347,10 +347,10 @@
                 </div>
 
                 <h2 class="text-xl md:text-2xl font-bold uppercase text-ink-dark mb-1">
-                    Fenntarthatósági Mátrix
+                    Fenntarthatóság Pillérei
                 </h2>
                 <p class="text-xs text-ink-muted mb-3 leading-relaxed">
-                    Kattintson az egyes elemekre a részletes elemzés kinyitásához!
+                    Kattintson az egyes elemekre a részletes leírás kinyitásához!
                 </p>
 
                 <!-- Collapsible Matrix Grid -->
@@ -361,7 +361,7 @@
                         <div class="flex justify-between items-center mb-1">
                             <div class="flex items-center gap-2">
                                 <i class="fa-solid fa-leaf text-present-terra"></i>
-                                <h3 class="text-sm font-bold text-ink-dark uppercase">1. Környezeti pillér</h3>
+                                <h3 class="text-sm font-bold text-ink-dark uppercase">Környezeti pillér</h3>
                             </div>
                             <span class="text-xs font-bold text-present-terra bg-canvas-bg px-1.5 py-0.5 rounded border border-ink-dark/10">01</span>
                         </div>
@@ -371,7 +371,7 @@
                         <div id="matrix-card-1" class="accordion-content">
                             <div class="accordion-inner">
                                 <div class="mt-2 pt-2 border-t border-gray-200 text-xs text-ink-dark leading-relaxed">
-                                    Körbe mindenhol madárházakkal és méhecske hotellel találkozhatunk. Az épület kertjébe ültetett növényeket az összegyűjtött esővízzel öntözik. Az épület körül nemrégiben kialakított tanösvény mutatja be az élővilágot.
+                                    Körbe mindenhol madárházakkal és méhecske hotellel találkozhatunk. Az épület kertjébe ültetett növényeket az összegyűjtött esővízzel öntözik. Az épület körül nemrégiben kialakított tanösvény mutatja be az élővilágot. Az épület nem csak elvesz, hanem együttműködik a környezetével.
                                 </div>
                             </div>
                         </div>
@@ -382,7 +382,7 @@
                         <div class="flex justify-between items-center mb-1">
                             <div class="flex items-center gap-2">
                                 <i class="fa-solid fa-users text-present-terra"></i>
-                                <h3 class="text-sm font-bold text-ink-dark uppercase">2. Társadalmi pillér</h3>
+                                <h3 class="text-sm font-bold text-ink-dark uppercase">Társadalmi pillér</h3>
                             </div>
                             <span class="text-xs font-bold text-present-terra bg-canvas-bg px-1.5 py-0.5 rounded border border-ink-dark/10">02</span>
                         </div>
@@ -392,7 +392,7 @@
                         <div id="matrix-card-2" class="accordion-content">
                             <div class="accordion-inner">
                                 <div class="mt-2 pt-2 border-t border-gray-200 text-xs text-ink-dark leading-relaxed">
-                                    Az intézmény komplex kulturális térként működik Szentendre szívében. A helyi közösség találkozási pontja, oktatási és kulturális rendezvények helyszíne.
+                                    Az intézmény komplex kulturális térként működik Szentendre történelmi belvárosában. A helyi közösség találkozási pontja, oktatási és kulturális rendezvények helyszíne. Szinte naponta tartanak valamilyen rendezvényt, olvasóklubbot vagy előadást.
                                 </div>
                             </div>
                         </div>
@@ -403,17 +403,17 @@
                         <div class="flex justify-between items-center mb-1">
                             <div class="flex items-center gap-2">
                                 <i class="fa-solid fa-coins text-present-terra"></i>
-                                <h3 class="text-sm font-bold text-ink-dark uppercase">3. Gazdasági pillér</h3>
+                                <h3 class="text-sm font-bold text-ink-dark uppercase">Gazdasági pillér</h3>
                             </div>
                             <span class="text-xs font-bold text-present-terra bg-canvas-bg px-1.5 py-0.5 rounded border border-ink-dark/10">03</span>
                         </div>
                         <p class="text-xs text-ink-muted leading-tight">
-                            Meglévő épületállomány adaptív újrahasznosítása bontás helyett...
+                            Meglévő épület jelenlegi kihasználtsága a városközpontban...
                         </p>
                         <div id="matrix-card-3" class="accordion-content">
                             <div class="accordion-inner">
                                 <div class="mt-2 pt-2 border-t border-gray-200 text-xs text-ink-dark leading-relaxed">
-                                    Az 1975-ös épület megőrzése és korszerűsítése jelentős szén-dioxid kibocsátást takarít meg az újbóli építéssel szemben. Az adaptív újrahasznosítás gazdaságos és értékőrző.
+                                    A könyvtár egy fontos helyen található, a belváros szívében, emiatt előadók, csoportok számára ideális hely. Az előadótermet valamit kisebb termeket ki is szokott adni a könyvtár. A telek teljesen ki van használva, az épület körül mindenhol ültetett növények találhatóak.
                                 </div>
                             </div>
                         </div>
@@ -424,7 +424,7 @@
                         <div class="flex justify-between items-center mb-1">
                             <div class="flex items-center gap-2">
                                 <i class="fa-solid fa-monument text-present-terra"></i>
-                                <h3 class="text-sm font-bold text-ink-dark uppercase">4. Kulturális pillér</h3>
+                                <h3 class="text-sm font-bold text-ink-dark uppercase">Kulturális pillér</h3>
                             </div>
                             <span class="text-xs font-bold text-present-terra bg-canvas-bg px-1.5 py-0.5 rounded border border-ink-dark/10">04</span>
                         </div>
@@ -434,7 +434,7 @@
                         <div id="matrix-card-4" class="accordion-content">
                             <div class="accordion-inner">
                                 <div class="mt-2 pt-2 border-t border-gray-200 text-xs text-ink-dark leading-relaxed">
-                                    A bejáratnál található 3x11 méteres Barcsay-üvegmozaik és a későmodern építészeti formanyelv megőrzése Szentendre művészeti hagyományainak folytonosságát képviseli.
+                                    A bejáratnál található 3x11 méteres Barcsay-üvegmozaik, amire a kultúra oltáraként is szoktak hivatkozni, és az épület formájának anyaghasználatának megőrzése Szentendre művészeti hagyományainak folytonosságát képviseli. Bár az épület később épült a belváros épületeihez képest, mégis teljesen illeszkedik a táj és a település adottságaihoz. 
                                 </div>
                             </div>
                         </div>
@@ -452,34 +452,34 @@
     </main>
 
     <!-- MODAL WINDOW: POI DETAILS & GALLERY -->
-    <div id="poi-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-card-bg border-2 border-ink-dark rounded-lg max-w-lg w-full p-5 shadow-2xl relative">
+    <div id="poi-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-card-bg border-2 border-ink-dark rounded-lg max-w-lg w-full p-5 shadow-2xl relative max-h-[90vh] flex flex-col my-auto">
             <!-- Modal Header -->
-            <div class="flex justify-between items-start border-b border-ink-dark pb-2 mb-3">
+            <div class="flex justify-between items-start border-b border-ink-dark pb-2 mb-3 flex-shrink-0">
                 <h3 id="modal-poi-title" class="text-lg font-bold text-ink-dark uppercase">POI Cím</h3>
                 <button onclick="closeModal('poi-modal')" class="text-ink-dark hover:text-present-terra text-xl font-bold">&times;</button>
             </div>
 
-            <!-- Image Carousel Container -->
-            <div class="relative w-full h-56 bg-black rounded overflow-hidden mb-3 border border-ink-dark">
-                <img id="modal-poi-img" src="" alt="POI Kép" class="w-full h-full object-cover">
+            <!-- Dynamic Height Image Carousel Container -->
+            <div class="relative w-full max-h-[50vh] min-h-[220px] bg-black rounded overflow-hidden mb-3 border border-ink-dark flex items-center justify-center flex-shrink-1">
+                <img id="modal-poi-img" src="" alt="POI Kép" class="max-w-full max-h-[50vh] w-auto h-auto object-contain mx-auto">
                 
                 <!-- Carousel Controls -->
-                <button onclick="changePoiImage(-1)" id="modal-prev-btn" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-black transition border border-white/20">
+                <button onclick="changePoiImage(-1)" id="modal-prev-btn" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-black transition border border-white/20 z-10">
                     &#10094;
                 </button>
-                <button onclick="changePoiImage(1)" id="modal-next-btn" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-black transition border border-white/20">
+                <button onclick="changePoiImage(1)" id="modal-next-btn" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-black transition border border-white/20 z-10">
                     &#10095;
                 </button>
             </div>
 
             <!-- Modal Text Body -->
-            <p id="modal-poi-desc" class="text-xs text-ink-dark mb-4 leading-relaxed">
+            <p id="modal-poi-desc" class="text-xs text-ink-dark mb-4 leading-relaxed overflow-y-auto flex-shrink-0 max-h-[20vh]">
                 POI Leírás helye...
             </p>
 
             <!-- Close Action Button -->
-            <div class="flex justify-end">
+            <div class="flex justify-end flex-shrink-0">
                 <button onclick="closeModal('poi-modal')" class="bg-ink-dark text-white font-bold text-xs px-4 py-2 rounded hover:bg-opacity-90 transition border border-ink-dark">
                     Vissza a térképhez
                 </button>
@@ -516,7 +516,7 @@
                     AI Nyilatkozat
                 </h4>
                 <p class="text-xs text-ink-dark leading-relaxed italic">
-                    A weboldal interaktív kódszerkezete és reszponzív felülete mesterséges intelligencia segítségével készült. Az építészeti elemzések, a kutatási tartalom és az eredeti tablók szellemi tulajdonát a BME ÉPK Urbanisztika Tanszék hallgatói képezik.
+                    A weboldal interaktív váza és felülete mesterséges intelligencia segítségével készült. A leírások, szövegek, a tartalom  valamint a képek elkészítéséhez semmilyen MI nem volt használva.
                 </p>
             </div>
 
@@ -561,33 +561,33 @@
                 id: 'poi1',
                 title: 'Szerb templom',
                 top: '35.35%',
-                left: '67.3%',
-                description: 'Az épület Pátriárka utca felőli főbejárata és reprezentatív fogadótere, mely összeköti a különböző szárnyakat.',
-                images: ['https://placehold.co/400x800/2B2B2B/FAF8F5?text=F%C5%91bej%C3%A1rat+1', 'https://placehold.co/800x500/C59B27/2B2B2B?text=F%C5%91bej%C3%A1rat+2']
+                left: '67.6%',
+                description: 'A település belvárosának kiemelkedő pontja, ami szinte mindenhonnan látszik. A könyvtár tervezésénél figyelembe kellett venni, hogy ne legyen túl feltűnő az épület, ne vegye el a hangsúlyt a templomtól.',
+                images: ['POI_pics/templom_1.jpg', 'POI_pics/templom_2.jpg']
             },
             {
                 id: 'poi2',
                 title: 'Jégkamra',
                 top: '67.64%',
                 left: '33.25%',
-                description: 'Barcsay Jenő Kossuth-díjas művész 3x11 méteres üvegmozaikja, mely a kultúrház színháztermi előterében található.',
-                images: ['https://placehold.co/800x500/C85A32/FFFFFF?text=Barcsay-mozaik']
+                description: 'Az alaprajzokon, a főbejárat előtt látható egy melléképület, ami egy korábban épített, már meglévő jégverem volt. Ez fontos szempont volt a tervezésnél, szerették volna megtartani, sőt, még a képzőművészeti szakkört is itt szerették volna tartani, viszont sajnos a kivitelezés közben mégis lebontásra került. A helyén jelenleg emelt ültetvény található, valamint mellette, a főbejárat nagy üvegfelületei előtt egy kiülős rész találató, ahol lehetőség van beszélgetni, találkozni ismerősökkel, barátokkal.',
+                images: ['POI_pics/verem_1.jpg', 'maps/hofer_map.png']
             },
             {
                 id: 'poi3',
                 title: 'Színházterem',
                 top: '56.31%',
                 left: '37.45%',
-                description: 'Nagy kapacitású multifunkcionális előadó- és színházterem, mely kulturális rendezvények helyszíne.',
-                images: ['https://placehold.co/800x500/C85A32/FFFFFF?text=Sz%C3%ADnh%C3%A1zterem']
+                description: 'A nagy előadóterem elhelyezkedése leköveti a terep adottságait. Mivel a telek pont nyugatról keletre lejt, így adott volt, hogy hova kerüljön a színpad és a nézőtér. A helység hátsó fala teljesen egybenyitható az előtérrel, így nagyobb eseményeken több helyet lehet biztosítani. A teremben, a bejárat fölött berendezésre került még egy vetítő helyiség is, amiben a mai napig megtalálható a vetítőgép.',
+                images: ['POI_pics/eloado_1','POI_pics/eloado_2','POI_pics/eloado_3','POI_pics/eloado_4', 'POI_pics/eloado_5']
             },
             {
                 id: 'poi4',
-                title: 'Belső Udvar & Tanösvény',
-                top: '55%',
-                left: '20%',
-                description: 'Védett belső zöldudvar, ahol a dolgozók által gondozott tanösvény és madárbarát kert található.',
-                images: ['https://placehold.co/800x500/EBE7E1/C85A32?text=Bels%C5%91+Udvar']
+                title: 'Méh legelő és tanösvény',
+                top: '62.7%',
+                left: '46.47%',
+                description: 'Egy viszonylag friss újítás az épület körül elhelyezett információs táblák, amik egy kis tanösvényt alkotnak, amelyen az érdeklődők megismerhetik az épület körül található élővilágot. Találhatóak táblák, amik a kertben megtalálható virágokról vagy fákról írnak pár sort és vannak táblák a bogarakról.',
+                images: ['POI_pics/tanosveny_1.jpg','POI_pics/tanosveny_2.jpg']
             }
         ];
 
@@ -595,36 +595,36 @@
         const COMPARISON_DATA = {
             'szinhaz': {
                 title: 'A Színházterem és Előadóterem',
-                desc: 'Az épületben elhelyezett nagy színpad és előadóterem a szokásos könyvtári funkciók mellett komplex kulturális központtá emelte az intézményt.',
-                pastImg: 'https://placehold.co/900x500/E5E1D8/2B2D2F?text=M%C3%BAltbeli+Sz%C3%ADnh%C3%A1zterem+(1975)',
-                presentImg: 'https://placehold.co/900x500/FAF8F5/2B2D2F?text=Jelenkori+Sz%C3%ADnh%C3%A1zterem+(2026)'
+                desc: 'Az épületben elhelyezett nagy színpad és előadóterem a szokásos könyvtári funkciók mellett komplex kulturális központtá emelte az intézményt. Az előadóban a legnagyobb változás az átadás 50. évfordulójára kicserélt székek a nézőtéren, de a gyönyörű faburkolatok azóta is megmaradtak.',
+                pastImg: 'comparison/eloado_mult.png',
+                presentImg: 'comparison/eloado_jelen.png'
             },
             'mozaik': {
                 title: 'Barcsay Jenő Üvegmozaikja',
-                desc: 'A monumentális 3x11 méteres üvegmozaikot a Kossuth-díjas Barcsay Jenő álmodta meg, amely a mai napig a ház fő dísze.',
-                pastImg: 'https://placehold.co/900x500/B8860B/FFFFFF?text=Mozaik+a+Nemzeti+Gall%C3%A9ri%C3%A1ban+(1970)',
-                presentImg: 'https://placehold.co/900x500/C85A32/FFFFFF?text=Mozaik+az+El%C5%91t%C3%A9rben+(2026)'
+                desc: 'A Barcsay mozaik az épület meghatározó, központi része amire szoktak úgy is hivatkozni, mint a kultúra oltára. A művet Barcsai Jenő készítette, és az addigi műveinek a kicsúcsosodása volt, minden tudását beletéve alkotta meg. Egy ideig a Nemzeti Gallériában volt kiállítva a 3x11 méteres mű.',
+                pastImg: 'comparison/barcsay_mult.png',
+                presentImg: 'comparison/barcsay_jelen.png'
             },
-            'eloter': {
-                title: 'Előtér és Lépcsőházi Szellőzés',
-                desc: 'Az épületet már a 70-es években szellőztető rendszerrel tervezték. Ennek jelei láthatóak a mozaikfal előtti lépcsőfokoknál lévő szellőzőrácsoknál.',
-                pastImg: 'https://placehold.co/900x500/2B2D2F/E5E1D8?text=Eredeti+Szell%C5%91z%C5%91r%C3%A1csok+(1975)',
-                presentImg: 'https://placehold.co/900x500/FAF8F5/2B2D2F?text=Mai+El%C5%91t%C3%A9r+%C3%A9s+Burkolat+(2026)'
+            'temeto': {
+                title: 'Temető',
+                desc: 'A temető a könyvtár közvetlen szomszédságában található, ahonnan rá lehet látni mind a könyvtárra, mind pedig a szerb templomra.',
+                pastImg: 'comparison/temeto_mult.png',
+                presentImg: 'comparison/temeto_jelen.png'
             },
-            'homlokzat': {
-                title: 'Külső Homlokzat és Kert',
-                desc: 'A Pátriárka utcai homlokzat hagyományos kő- és téglaburkolata harmonizál Szentendre óvárosának karakterével.',
-                pastImg: 'https://placehold.co/900x500/E5E1D8/B8860B?text=Eredeti+Homlokzat+(1975)',
-                presentImg: 'https://placehold.co/900x500/FAF8F5/C85A32?text=Z%C3%B6ld%C3%B6vezet+és+Tan%C3%B6sv%C3%A9ny+(2026)'
+            'olvaso': {
+                title: 'Olvasóterem',
+                desc: 'A nagy olvasóterem. Több nagyobb olvasóasztal is megtalálható, ahol csoportok, barátok le tudnak ülni közösen, viszont érdekesség, hogy a könyvespolcok végeinél kis, egyéni olvasóasztalok lettek elhelyezve.',
+                pastImg: 'comparison/olvaso_mult.png',
+                presentImg: 'comparison/olvaso_jelen.png'
             }
         };
 
         // Backend Editable Sources List
         const SOURCES_LIST = [
-            'Hofer Miklós: A Pest Megyei Művelődési Központ tervei (1974-1975)',
-            'Pest Megyei Archívum - Építészeti Műleírások és Fotótár',
-            'Szentendre Város Városrendezési és Építési Szabályzata',
-            'BME ÉPK Urbanisztika Tanszék - Bevezetés az építészetbe / Talált Ház 2026 gyűjtés'
+            'Hamvas Béla Pest Megyei Könyvtár Helytörténeti gyűjteménye – Komáromi-Raisz Borbála helytörténeti könyvtáros',
+            'Hofer Miklós: A Pest Megyei Művelődési Központ tervei',
+            'Szentendrei könyvtár/önkormányzat Archívum',
+            'Magyar Építőművészet 1976'
         ];
 
         /* ===================================================
